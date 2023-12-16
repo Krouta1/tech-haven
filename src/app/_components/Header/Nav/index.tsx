@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-import { Header as HeaderType, User } from '../../../../payload/payload-types'
+import { Header as HeaderType } from '../../../../payload/payload-types'
 import { useAuth } from '../../../_providers/Auth'
 import { Button } from '../../Button'
 import { CartLink } from '../../CartLink'
@@ -20,7 +20,6 @@ export const HeaderNav: React.FC<{ header: HeaderType }> = ({ header }) => {
       {navItems.map(({ link }, i) => {
         return <CMSLink key={i} {...link} appearance="none" />
       })}
-      <CartLink />
       {user && <Link href="/account">Account</Link>}
       {!user && (
         <Button
