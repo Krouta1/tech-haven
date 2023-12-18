@@ -1,64 +1,66 @@
 'use client'
+
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { Footer, Media } from '../../../../payload/payload-types'
-import { inclusions, noHeaderFooterUrls } from '../../../constants'
+import { inclusions, noHeaderFooterUrls, profileNavItems } from '../../../constants'
 import { Button } from '../../Button'
 import { Gutter } from '../../Gutter'
 
 import classes from './index.module.scss'
 
-type FooterComponentProps = {
-  footer: Footer
-}
-
-const FooterComponent = ({ footer }: FooterComponentProps) => {
+const FooterComponent = ({ footer }: { footer: Footer }) => {
   const pathname = usePathname()
-
   const navItems = footer?.navItems || []
+
   return (
     <footer className={noHeaderFooterUrls.includes(pathname) ? classes.hide : ''}>
       <Gutter>
         <ul className={classes.inclusions}>
-          {inclusions.map((inc, index) => (
-            <li key={inc.title}>
+          {inclusions.map(inclusion => (
+            <li key={inclusion.title}>
               <Image
-                src={inc.icon}
-                alt={inc.title}
+                src={inclusion.icon}
+                alt={inclusion.title}
                 width={36}
                 height={36}
                 className={classes.icon}
               />
-              <h5 className={classes.title}>{inc.title}</h5>
-              <p>{inc.description}</p>
+
+              <h5 className={classes.title}>{inclusion.title}</h5>
+              <p>{inclusion.description}</p>
             </li>
           ))}
         </ul>
       </Gutter>
+
       <div className={classes.footer}>
         <Gutter>
           <div className={classes.wrap}>
-            <Link href={'/home'}>
-              <Image src={'/logo-white.svg'} alt="Logo" width={170} height={50} />
+            <Link href="/">
+              <Image src="/logo-white.svg" alt="logo" width={170} height={50} />
             </Link>
-            <p>{footer.copyright}</p>
-            <div className={classes.sociaLinks}>
+
+            <p>{footer?.copyright}</p>
+
+            <div className={classes.socialLinks}>
               {navItems.map(item => {
-                const icon = item.link.icon as Media
+                const icon = item?.link?.icon as Media
+
                 return (
                   <Button
                     key={item.link.label}
                     el="link"
                     href={item.link.url}
                     newTab={true}
-                    className={classes.sociaLinkItem}
+                    className={classes.socialLinkItem}
                   >
                     <Image
-                      src={icon.url}
-                      alt={icon.alt}
+                      src={icon?.url}
+                      alt={item.link.label}
                       width={24}
                       height={24}
                       className={classes.socialIcon}
